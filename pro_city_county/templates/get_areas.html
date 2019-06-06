@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>获取省市县</title>
+    <script src="/static/js/jquery-1.8.3.js"></script>
+    <script>
+        $(function(){
+            // 发起一个ajax请求 /cities，获取省级信息
+            $.get('/cities', function(data){
+                prov = $('#prov')
+                res = data.data     //获取json返回的prov
+                // res是一个数组，每个元素也是数组[地区id，地区标题]
+                $.each(res, function(index, item){  // 第几个元素,元素值
+                    id = item[0]
+                    atitle = item[1]
+                    prov.append('<option value="'+id+'">'+atitle+'</option>')
+                })
+            })
+
+            // 绑定prov下拉框的change事件，获取省对应的市信息
+            $('#prov').change(function(){
+                // 发起ajax请求 /cities，获取市级信息,传入省的id
+                prov_id = $(this).val()
+                $.get('/cities'+prov_id, function(data){
+                    city = $('#city')
+                    county = $('#county')
+                    res = data.data
+                    //清空city、county下拉框列表
+                    city.empty().append('<option>---请选择市---</option>')
+                    county.empty().append('<option>---请选择县---</option>')
+                    $.each(res, function(index, item){
+                        id = item[0]
+                        atitle = item[1]
+                        city.append('<option value="'+id+'">'+atitle+'</option>')
+                    })
+                })
+            })
+
+            // 绑定city下拉框的change事件，获取市对应的县信息
+            $('#city').change(function(){
+                // 发起ajax请求 /cities，获取县级信息,传入市的id
+                city_id = $(this).val()
+                $.get('/cities'+city_id, function(data){
+                    county = $('#county')
+                    res = data.data
+                    //清空county下拉框列表
+                    county.empty().append('<option>---请选择县---</option>')
+                    $.each(res, function(index, item){
+                        id = item[0]
+                        atitle = item[1]
+                        county.append('<option value="'+id+'">'+atitle+'</option>')
+                    })
+                })
+            })
+
+        })
+
+    </script>
+</head>
+<body>
+<select id="prov">
+    <option>---请选择省---</option>
+</select>
+<select id="city">
+    <option>---请选择市---</option>
+</select>
+<select id="county">
+    <option>---请选择县---</option>
+</select>
+</body>
+</html>
