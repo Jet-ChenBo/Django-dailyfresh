@@ -19,18 +19,7 @@
 12.	调用支付宝API进行付款和查询结果，用的沙箱环境
 13.	uwsgi作为web服务器
 14. 项目架构，nginx的实现负载均衡，启动多个uwsgi务，nginx的随机转发请求
-	    用户		              nginx			             uwsgi		              djago项目
-	
-	  提交请求     ----->  1.静态文件
-                     (ip:port/static/....)
-		            <-----	直接返回
-
-			                  2.动态文件
-                       (ip:port/.....)
-			                  转交给uwsgi   ----->     调用application  ------>   进行处理
-		            <-----		           <-----		                  <------  	返回结果
-
-			              3.请求静态首页
-			              (ip:port)
-			              转交给存放
-			              静态首页的服务器上的nginx
+用户的请求都是提交到nginx服务器：将请求分为三类，nginx会做出不同的处理：
+1.请求静态资源(ip:port/static/....)，nginx直接查找之后返回
+2.请求动态资源(ip:port/......)，将请求转交给uwsgi服务器，uwsgi调用application函数与django交互，最后依次返回信息给用户
+3.请求静态首页(ip:port)，nginx将请求转发给存放静态首页资源的电脑上的nginx服务器，依次返回信息
