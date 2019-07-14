@@ -28,7 +28,7 @@ def send_register_active_emali(to_email, username, token):
     receiver = [to_email]  # 收件人邮箱
     html_message = '''
                            <h1>%s,欢迎您成为天天生鲜会员</h1>请点击下面的链接激活您的账户</br>
-                           <a href="http:127.0.0.1:8000/user/active/%s">激活账户</a>
+                           <a href="http:127.0.0.1/user/active/%s">激活账户</a>
                           ''' % (username, token)  # 正文，可以传html标签
     send_mail(subject, message, sender, receiver, html_message=html_message)
 
