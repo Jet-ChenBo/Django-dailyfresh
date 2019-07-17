@@ -1,5 +1,5 @@
-#### 项目效果图
-[点击此链接查看](https://jet-chenbo.github.io/JQuery/django_pic/index.html)     图片较多，可能要加载一会，请耐心等到1-2分钟
+
+### [网站链接](http://49.234.189.74)
 ## 功能模块
 - 用户模块：注册、登录、激活、退出、个人中心、地址
 -	商品模块：首页、详情、列表、搜索(haystack+whoosh)
